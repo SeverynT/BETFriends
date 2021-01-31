@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <script type="text/javascript"
+            src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="webjars/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/2c432b3229.js" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+
+
+</head>
+<body th:style="'background-image:url(' + @{/images/logo2.jpg} + '); background-repeat: no-repeat;   background-attachment: fixed; background-position: center;'">
+
+<div th:replace="header :: header">&nbsp;</div>
+
+<div class="container my-2">
+
+    <table class="table  table-hover table-responsive-md">
+
+        <a class="container my-3">
+            <img th:src="@{/images/PremierLeagueLogo2.png}" class="premierLeagueLogo"/>
+        </a>
+
+        <thead>
+        <tr>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=hostName&sortDir=' + ${reverseSortDir}}">HOST</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=guestName&sortDir=' + ${reverseSortDir}}">GUEST</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=matchStartDate&sortDir=' + ${reverseSortDir}}">DATE</a>
+            </th>
+            <th>
+                <a th:href="@{/updateMatches}" id="id" class="refresh"><i class="fas fa-redo"></i></a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="match : ${listMatches}">
+            <td th:text="${match.hostName}"></td>
+            <td th:text="${match.guestName}"></td>
+            <td th:text="${#temporals.format(match.matchStartDate,'dd-MM-yyyy HH:mm')}"></td>
+            <td><a th:href="@{/showFormForUpdate/{id}(id=${match.id})}" class="btn btn-success"
+                   style="width: 80%;">BET</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page Navigation">
+        <ul class="pagination pagination-circle justify-content-center">
+
+            <li class="page-item " th:unless="${currentPage > 1}">
+                <a class="page-link">First</a>
+            </li>
+            <li class="page-item" th:if="${currentPage > 1}">
+                <a class="page-link"
+                   th:href="@{'/page/' + ${1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+            </li>
+
+            <li class="page-item " th:unless="${currentPage > 1}">
+                <a class="page-link">Previous</a>
+            </li>
+            <li class="page-item" th:if="${currentPage > 1}">
+                <a class="page-link"
+                   th:href="@{'/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+            </li>
+
+            <li class="page-item active">
+                <a class="page-link">[[${currentPage}]]</a>
+            </li>
+
+            <li class="page-item " th:unless="${currentPage < totalPages}">
+                <a class="page-link">Next</a>
+            </li>
+            <li class="page-item" th:if="${currentPage < totalPages}">
+                <a class="page-link"
+                   th:href="@{'/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+            </li>
+
+            <li class="page-item " th:unless="${currentPage < totalPages}">
+                <a class="page-link">Last</a>
+            </li>
+            <li class="page-item" th:if="${currentPage < totalPages}">
+                <a class="page-link" th:href="@{'/page/' + ${totalPages} + '?sortField=' +
+                    ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+            </li>
+
+        </ul>
+    </nav>
+</div>
+
+<div th:replace="footer :: footer">&nbsp;</div>
+
+
+</body>
+</html>

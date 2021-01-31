@@ -1,0 +1,80 @@
+.loginform {
+    opacity: 0.95;
+    border-radius: 20px;
+}
+
+.registerform {
+    opacity: 0.95;
+    border-radius: 20px;
+    margin-top: 10%;
+}
+
+
+.table {
+    text-align: center;
+    background-color: azure;
+    width: 100%;
+    opacity: 0.7;
+    border-radius: 20px;
+}
+
+.table td {
+    vertical-align: middle;
+    padding: 0.8%;
+}
+
+.table thead {
+    padding: 1%;
+    font-size: 1.2em;
+}
+
+.form {
+    text-align: center;
+    background-color: azure;
+    width: 30%;
+    opacity: 0.7;
+    border-radius: 20px;
+}
+
+
+.premierLeagueLogo {
+    width: 250px;
+    margin-bottom: 2%;
+    margin-top: 1%;
+    margin-left: 1%;
+}
+
+
+.copy {
+    font-size: 12px;
+    padding: 10px;
+    border-top: 1px solid #FFFFFF;
+}
+
+.social {
+     font-size: 3em;
+     color: silver;
+ }
+
+.logout {
+    font-size: 1.5em;
+    color: silver;
+    margin-left: 5px;
+}
+
+.betwin {
+    color: green;
+    font-size: 125%;
+}
+
+.betlose {
+    color: red;
+    font-size: 125%;
+}
+
+.betdraw {
+    color: yellow;
+    font-size: 125%;
+}
+
+

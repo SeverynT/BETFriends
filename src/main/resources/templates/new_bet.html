@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Bet</title>
+
+    <script type="text/javascript"
+            src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="webjars/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{js/main.js}" src="../static/js/main.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+    <script src="https://kit.fontawesome.com/2c432b3229.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+
+</head>
+<body th:style="'background-image:url(' + @{/images/logo2.jpg} + '); background-repeat: no-repeat;   background-attachment: fixed; background-position: center;'">
+
+<div th:replace="header :: header">&nbsp;</div>
+
+<div align="center" class="form container my-1 mt-5">
+    <form method="POST" th:action="@{/saveBet}" th:object="${bet}" class="bg-light">
+
+        <input type="hidden" id="bet.matches.id" name="bet.matches.id" th:value="${bet.matches.id}"
+               th:field="${bet.matches.id}"/>
+        <input type="hidden" id="bet.user.id" name="bet.user.id" th:value="${bet.user.id}" th:field="${bet.user.id}"/>
+
+
+        <div class="form-group">
+
+            <label>Host Name: </label>
+            <strong><span th:text="*{matches.getHostName()}"></span></strong><br>
+
+            <label>Guest Name: </label>
+            <strong><span th:text="*{matches.getGuestName()}"></span></strong><br>
+
+            <label>Match Start Date: </label>
+            <strong><span
+                    th:text="*{#temporals.format(matches.getMatchStartDate(), 'dd-MM-yyyy HH:mm')}"></span></strong>
+        </div>
+
+        <label>The winner will be: </label>
+
+        <div class="form-group">
+
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="Guest" name="Guest" class="custom-control-input" value="false"
+                       th:field="*{typ}">
+                <label class="custom-control-label" for="Guest">Host</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="Host" name="Host" class="custom-control-input" value="true" th:field="*{typ}">
+                <label class="custom-control-label" for="Host">Guest</label>
+            </div>
+        </div>
+
+
+        <select class="custom-select" th:field="${bet.opponent.id}" required>
+            <option value="">SELECT YOUR OPPONENT</option>
+            <option th:each="user : ${users}" th:unless="${user.id} == ${bet.user.id}"
+                    th:value="${user.id}"
+                    th:utext="${user.firstName} + ' ' + ${user.lastName} "/>
+        </select>
+        </td>
+        <br>
+
+        <button type="submit" class="btn btn-info col-2 mb-1">SEND</button>
+    </form>
+</div>
+
+
+</body>
+</html>

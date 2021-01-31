@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Footer</title>
+    <script type="text/javascript"
+            src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="webjars/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/2c432b3229.js" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<!--Footer-->
+<footer class="bg-dark text-light" style="margin-top: 40%" th:fragment="footer">
+    <div class="footer-top">
+        <div class="container p-5">
+            <div class="row">
+                <div class="col-md-4 col-lg-4 footer-about wow fadeInUp">
+                    <img class="logo-footer" th:src="@{/images/logo.png}" style="width: 200px" alt="logo-footer"
+                         data-at2x="assets/img/logo.png">
+                    <p class="p-1">
+                        I am a young programmer who is starting his adventure with the Spring framework and made this
+                        web application for his thesis project.
+                    </p>
+                </div>
+                <div class="col-md-4 col-lg-4 offset-lg-1 footer-contact wow fadeInDown">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Górczewska 181/102F, 01459 Warsaw Poland</p>
+                    <p><i class="fas fa-phone"></i> Phone: (+48) 733 386 774</p>
+                    <p><i class="fas fa-envelope"></i> Email: <a href="mailto:tkacz.seweryn@gmail.com">tkacz.seweryn@gmail.com</a>
+                    </p>
+                </div>
+                <div class="col-md-4 col-lg-3 footer-social wow fadeInUp">
+                    <h3>Follow us</h3>
+                    <p>
+                        <a href="#" class="social"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social"><i class="fab fa-instagram"></i></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container copy justify-content-center">
+            <div class="row">
+                <div class="col-md-5 footer-copyright">
+                    <p>&copy; 2021 Seweryn Tkacz</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

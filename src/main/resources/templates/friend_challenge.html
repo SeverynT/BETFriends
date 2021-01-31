@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Friendly Challenge</title>
+    <script type="text/javascript"
+            src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="webjars/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{js/main.js}" src="../static/js/main.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+    <script src="https://kit.fontawesome.com/2c432b3229.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+
+</head>
+<body th:style="'background-image:url(' + @{/images/logo2.jpg} + '); background-repeat: no-repeat;   background-attachment: fixed; background-position: center;'">
+<div th:replace="header :: header">&nbsp;</div>
+
+<div align="center" class="container my-2 mt-5">
+
+    <div class="card" style="width: 50%;" th:if="${#lists.isEmpty(friendBet)}">
+        <img class="card-img-top" th:src="@{/images/waiting.jpg}" alt="Card image cap">
+        <div class="card-body bg-light">
+            <h3 class="card-text font-weight-bold">You don't have any pending challenge from friends!</h3>
+        </div>
+    </div>
+
+    <table th:unless="${#lists.isEmpty(friendBet)}" class="table table-responsive-md mt-5">
+
+        <thead>
+        <tr>
+            <th>
+                <a>MATCH</a>
+            </th>
+
+            <th>
+                <a>DATE</a>
+            </th>
+
+            <th>
+                <a>OPPONENT</a>
+            </th>
+
+            <th>
+                <a>FRIEND TYP</a>
+            </th>
+
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="bet : ${friendBet}">
+            <td th:text="${bet.matches.hostName} + ' vs ' + ${bet.matches.guestName}"></td>
+            <td th:text="${#temporals.format(bet.matches.matchStartDate,'dd-MM-yyyy HH:mm')}"></td>
+            <td th:text="${bet.user.firstName} + ' ' + ${bet.user.lastName}"></td>
+            <td th:text="${bet.typ} ? ${bet.matches.guestName} : ${bet.matches.hostName}"></td>
+            <td>
+                <a th:href="@{/acceptBet/{id}(id=${bet.id})}" class="btn btn-success">Accept</a>
+                <a th:href="@{/deleteBet/{id}(id=${bet.id})}" class="btn btn-danger">Reject</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="footer :: footer">&nbsp;</div>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" xmlns:color="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/js/jquery-1.12.4.min.js">\x3C/script>')</script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/2c432b3229.js" crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+
+</head>
+<body>
+
+<!--     create navigation bar ( header)-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="header">
+
+    <a class="navbar-brand" th:href="@{/}">
+        <strong>BETfriends</strong>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <a sec:authorize="isAuthenticated()">
+
+        <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" th:href="@{/myBets}">My Bets</a>
+                <a class="nav-item nav-link" th:href="@{/friendChallenge}">Pending Friends Challenge</a>
+                <a class="nav-item nav-link" th:href="@{/points}">Points</a>
+            </div>
+
+        </div>
+
+
+        <a style="color: lightgrey">Hi,<span sec:authentication="principal.username">User</span>
+        </a>
+
+        <a class="logout" th:href="@{/logout}">
+            <i class="fas fa-sign-out-alt"></i>
+        </a>
+
+    </a>
+</nav>
+
+</body>
+</html>

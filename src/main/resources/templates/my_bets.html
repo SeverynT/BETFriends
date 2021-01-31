@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>My Bets</title>
+    <script type="text/javascript"
+            src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="webjars/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{js/main.js}" src="../static/js/main.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="../static/js/main.js" th:src="@{/js/main.js}"></script>
+    <script src="https://kit.fontawesome.com/2c432b3229.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+
+</head>
+<body th:style="'background-image:url(' + @{/images/logo2.jpg} + '); background-repeat: no-repeat;   background-attachment: fixed; background-position: center;'">
+<div th:replace="header :: header">&nbsp;</div>
+
+<div align="center" class="container my-2 mt-5">
+
+    <div class="card" style="width: 50%;" th:if="${#lists.isEmpty(bets)}">
+        <img class="card-img-top" th:src="@{/images/waiting.jpg}" alt="Card image cap">
+        <div class="card-body bg-light">
+            <h3 class="card-text font-weight-bold">You don't have any bets!</h3>
+        </div>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(bets)}">
+        <table class="table table-responsive-md mt-5">
+            <thead>
+            <tr>
+                <th>
+                    <a>MATCH</a>
+                </th>
+
+                <th>DATE</th>
+
+                <th>
+                    <a>OPPONENT</a>
+                </th>
+
+                <th>FRIEND TYP</th>
+
+                <th>
+                    <a>MATCH RESULT</a>
+                </th>
+
+                <th>
+                    <a>SCORE</a>
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="bet : ${bets}">
+                <td th:text="${bet.matches.hostName} + ' vs ' + ${bet.matches.guestName}"
+                    style="font-weight: bold"></td>
+                <td th:text="${#temporals.format(bet.matches.matchStartDate,'dd-MM-yyyy HH:mm')}"></td>
+
+                <div th:if="${currentUser.id} == ${bet.user.id}">
+                    <td th:text="${bet.opponent.firstName} + ' ' + ${bet.opponent.lastName}"></td>
+                    <td th:text="${bet.typ} ? ${bet.matches.hostName} : ${bet.matches.guestName}"></td>
+
+
+                    <div th:unless="${bet.matches.result} == ${T(com.Friends.Bet.results.MatchResult).NOT_SET}">
+                        <td th:text="${bet.matches.hostGoals} + '-' + ${bet.matches.guestGoals}"
+                            style="font-weight: bold"></td>
+                    </div>
+
+                    <div th:switch="${bet.betResult}">
+                        <td th:case="${T(com.Friends.Bet.results.BetResult).USER_WIN}" class="betwin">
+                            <i class="fas fa-check-circle"></i>
+                        </td>
+                        <td th:case="${T(com.Friends.Bet.results.BetResult).OPPONENT_WIN}" class="betlose">
+                            <i class="fas fa-times-circle"></i>
+                        </td>
+                        <td th:case="${T(com.Friends.Bet.results.BetResult).NOBODY_WON}" class="betdraw">
+                            <i class="fas fa-minus-circle"></i>
+                        </td>
+                    </div>
+                </div>
+
+                <div th:if="${currentUser.id} == ${bet.opponent.id}">
+                    <td th:text="${bet.user.firstName} + ' ' + ${bet.user.lastName}"></td>
+                    <td th:text="${bet.typ} ? ${bet.matches.guestName} : ${bet.matches.hostName}"></td>
+
+                    <div th:unless="${bet.matches.result} == ${T(com.Friends.Bet.results.MatchResult).NOT_SET}">
+                        <td th:text="${bet.matches.hostGoals} + '-' + ${bet.matches.guestGoals}"
+                            style="font-weight: bold"></td>
+                    </div>
+
+                    <div th:switch="${bet.betResult}">
+                        <td th:case="${T(com.Friends.Bet.results.BetResult).USER_WIN}" class="betlose">
+                            <i class="fas fa-times-circle"></i>
+                        </td>
+                        <td th:case="${T(com.Friends.Bet.results.BetResult).OPPONENT_WIN}" class="betwin">
+                            <i class="fas fa-check-circle"></i>
+                        </td>
+                        <td th:case="${T(com.Friends.Bet.results.BetResult).NOBODY_WON}" class="betdraw">
+                            <i class="fas fa-minus-circle"></i>
+                        </td>
+                    </div>
+                </div>
+            </tr>
+            </tbody>
+        </table>
+
+        <nav aria-label="Page Navigation">
+            <ul class="pagination pagination-circle justify-content-center">
+
+                <li class="page-item " th:unless="${currentPage > 1}">
+                    <a class="page-link">First</a>
+                </li>
+                <li class="page-item" th:if="${currentPage > 1}">
+                    <a class="page-link"
+                       th:href="@{'/pages/' + ${1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+                </li>
+
+                <li class="page-item " th:unless="${currentPage > 1}">
+                    <a class="page-link">Previous</a>
+                </li>
+                <li class="page-item" th:if="${currentPage > 1}">
+                    <a class="page-link"
+                       th:href="@{'/pages/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+                </li>
+
+                <li class="page-item active">
+                    <a class="page-link">[[${currentPage}]]</a>
+                </li>
+
+                <li class="page-item " th:unless="${currentPage < totalPages}">
+                    <a class="page-link">Next</a>
+                </li>
+                <li class="page-item" th:if="${currentPage < totalPages}">
+                    <a class="page-link"
+                       th:href="@{'/pages/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+                </li>
+
+                <li class="page-item " th:unless="${currentPage < totalPages}">
+                    <a class="page-link">Last</a>
+                </li>
+                <li class="page-item" th:if="${currentPage < totalPages}">
+                    <a class="page-link"
+                       th:href="@{'/pages/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div th:replace="footer :: footer">&nbsp;</div>
+
+
+</body>
+</html>
